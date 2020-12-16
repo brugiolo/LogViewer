@@ -1,0 +1,23 @@
+﻿<h3>Import logs from text file.</h3>
+<br />
+<form method="post" enctype="multipart/form-data">
+    <input type="file" name="iFormFile" lang="pt-br" />
+    <button type="submit">Import logs</button>
+</form>
+
+@if (ViewBag.Message != null)
+{
+    if (ViewBag.IsSuccess)
+    {
+        <div class="alert alert-success" style="margin-top:20px">
+            @ViewBag.Message
+        </div>
+    }
+    else
+    {
+
+        <div class="alert alert-warning" style="margin-top:20px">
+            @ViewBag.Message
+        </div>
+    }
+}

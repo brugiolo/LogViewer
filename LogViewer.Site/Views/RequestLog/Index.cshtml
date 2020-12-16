@@ -1,0 +1,73 @@
+﻿@model IEnumerable<LogViewer.Site.Models.RequestLogViewModel>
+
+@{
+    ViewData["Title"] = "List";
+}
+
+<h3>List</h3>
+
+<p>
+    <a asp-action="Create">Insert new record</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Ip
+            </th>
+            <th>
+                Date
+            </th>
+            <th>
+                Method
+            </th>
+            <th>
+                Adress
+            </th>
+            <th>
+                Protocol
+            </th>
+            <th>
+                Status
+            </th>
+            <th>
+                Content Length
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            @Html.HiddenFor(modelItem => item.Id)
+            <td>
+                @Html.DisplayFor(modelItem => item.Ip)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Method)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Adress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Client)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContentLength)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
