@@ -17,19 +17,19 @@ namespace LogViewer.Site.Controllers
         private readonly string _defaultExtension = ".TXT";
         private readonly HttpClient _httpClient;
         private readonly IConfiguration _configuration;
-        private readonly string baseUrl;
+        private readonly string _baseUrl;
 
         public RequestLogController(IConfiguration configuration)
         {
             _configuration = configuration;
-            baseUrl = configuration.GetValue<string>("MySettings:BaseUrl");
+            _baseUrl = configuration.GetValue<string>("MySettings:BaseUrl");
             _httpClient = new HttpClient();
         }
 
         public async Task<ActionResult> Index()
         {
             var logs = new List<RequestLogViewModel>();
-            var response = await _httpClient.GetAsync(baseUrl + "list");
+            var response = await _httpClient.GetAsync(_baseUrl + "list");
             if (response.IsSuccessStatusCode)
             {
                 logs = await response.Content.ReadAsAsync<List<RequestLogViewModel>>();
@@ -40,7 +40,7 @@ namespace LogViewer.Site.Controllers
 
         public async Task<ActionResult> Details(Guid id)
         {
-            var response = await _httpClient.GetAsync(baseUrl + id);
+            var response = await _httpClient.GetAsync(_baseUrl + id);
             if (response.IsSuccessStatusCode)
             {
                 var log = await response.Content.ReadAsAsync<RequestLogViewModel>();
@@ -76,7 +76,7 @@ namespace LogViewer.Site.Controllers
             var multiContent = new MultipartFormDataContent();
             multiContent.Add(bytes, "file", iFormFile.FileName);
 
-            var result = _httpClient.PostAsync(baseUrl + "InsertFromFile", multiContent).Result;
+            var result = _httpClient.PostAsync(_baseUrl + "InsertFromFile", multiContent).Result;
 
             if (result.StatusCode == System.Net.HttpStatusCode.OK)
                 return RedirectToAction("Index", "RequestLog");
@@ -96,7 +96,7 @@ namespace LogViewer.Site.Controllers
             try
             {
                 var httpContent = new StringContent(JsonConvert.SerializeObject(requestLogViewModel), Encoding.UTF8, "application/json");
-                var response = await _httpClient.PostAsync(baseUrl, httpContent);
+                var response = await _httpClient.PostAsync(_baseUrl, httpContent);
                 
                 return View(nameof(Index));
             }
@@ -108,7 +108,7 @@ namespace LogViewer.Site.Controllers
 
         public async Task<ActionResult> Edit(Guid id)
         {
-            var response = await _httpClient.GetAsync(baseUrl + id);
+            var response = await _httpClient.GetAsync(_baseUrl + id);
             if (response.IsSuccessStatusCode)
             {
                 var log = await response.Content.ReadAsAsync<RequestLogViewModel>();
@@ -125,7 +125,7 @@ namespace LogViewer.Site.Controllers
             try
             {
                 var httpContent = new StringContent(JsonConvert.SerializeObject(requestLogViewModel), Encoding.UTF8, "application/json");
-                var response = await _httpClient.PutAsync(baseUrl + id, httpContent);
+                var response = await _httpClient.PutAsync(_baseUrl + id, httpContent);
                 if (response.IsSuccessStatusCode)
                 {
                     var log = await response.Content.ReadAsAsync<RequestLogViewModel>();
@@ -142,7 +142,7 @@ namespace LogViewer.Site.Controllers
 
         public async Task<ActionResult> Delete(Guid id)
         {
-            var response = await _httpClient.GetAsync(baseUrl + id);
+            var response = await _httpClient.GetAsync(_baseUrl + id);
             if (response.IsSuccessStatusCode)
             {
                 var log = await response.Content.ReadAsAsync<RequestLogViewModel>();
@@ -158,7 +158,7 @@ namespace LogViewer.Site.Controllers
         {
             try
             {
-                var response = await _httpClient.DeleteAsync(baseUrl + id.ToString());
+                var response = await _httpClient.DeleteAsync(_baseUrl + id.ToString());
 
                 return RedirectToAction(nameof(Index));
             }
