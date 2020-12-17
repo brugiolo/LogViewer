@@ -26,10 +26,10 @@ namespace LogViewer.Site.Controllers
             _httpClient = new HttpClient();
         }
 
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string text)
         {
             var logs = new List<RequestLogViewModel>();
-            var response = await _httpClient.GetAsync(_baseUrl + "list");
+            var response = await _httpClient.GetAsync(_baseUrl + "list/?text=" + text);
             if (response.IsSuccessStatusCode)
             {
                 logs = await response.Content.ReadAsAsync<List<RequestLogViewModel>>();

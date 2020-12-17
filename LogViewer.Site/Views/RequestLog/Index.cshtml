@@ -9,6 +9,11 @@
 <p>
     <a asp-action="Create">Insert new record</a>
 </p>
+<p>
+    <h5>Search</h5>
+    <input id="text-search" type="text" size="70">
+    <input type="button" value="Search" class="btn btn-info" onclick="location.href='@Url.Action("Index", "RequestLog")?text=' + $('#text-search').val()"/>
+</p>
 <table class="table">
     <thead>
         <tr>
@@ -25,7 +30,7 @@
                 Adress
             </th>
             <th>
-                Protocol
+                User Agent
             </th>
             <th>
                 Status
@@ -54,7 +59,7 @@
                 @Html.DisplayFor(modelItem => item.Adress)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Client)
+                @Html.DisplayFor(modelItem => item.UserAgent)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Status)
